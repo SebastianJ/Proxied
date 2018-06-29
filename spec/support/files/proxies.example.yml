@@ -1,0 +1,13 @@
+http:
+  - host: "127.0.0.1"
+    port: 1111
+    protocol: http
+    username: USERNAME
+    password: PASSWORD
+
+socks:
+  - host: "127.0.0.1"
+    port: 9999
+    protocol: socks
+    username: USERNAME
+    password: PASSWORD

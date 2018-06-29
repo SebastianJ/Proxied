@@ -1,0 +1,19 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/spec/tmp/
+/spec/support/files/proxies.yml
+/tmp/
+
+# rspec failure tracking
+.rspec_status
+
+# pry history
+.pry_history
+
+# appraisals
+/gemfiles/*.lock
