@@ -17,3 +17,7 @@
 
 # appraisals
 /gemfiles/*.lock
+
+# RVM
+.ruby-version
+.ruby-gemset
