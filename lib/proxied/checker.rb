@@ -1,15 +1,17 @@
 module Proxied
   class Checker
+    attr_accessor :mode
     attr_accessor :minimum_successful_attempts, :maximum_failed_attempts
     attr_accessor :limit
 
-    def initialize(minimum_successful_attempts: ::Proxied.configuration.minimum_successful_attempts, maximum_failed_attempts: ::Proxied.configuration.maximum_failed_attempts, limit: nil)
+    def initialize(mode: :synchronous, minimum_successful_attempts: ::Proxied.configuration.minimum_successful_attempts, maximum_failed_attempts: ::Proxied.configuration.maximum_failed_attempts, limit: nil)
+      self.mode                         =   mode
       self.minimum_successful_attempts  =   minimum_successful_attempts
       self.maximum_failed_attempts      =   maximum_failed_attempts
       self.limit                        =   limit
     end
 
-    def check_proxies(protocol: :all, proxy_type: :all, mode: :synchronous, update: true)
+    def check_proxies(protocol: :all, proxy_type: :all, update: true)
       proxies                           =   ::Proxied.configuration.proxy_class.constantize.should_be_checked(
         protocol:                 protocol,
         proxy_type:               proxy_type,
@@ -22,7 +24,7 @@ module Proxied
         ::Proxied::Logger.log "Found #{proxies.size} #{proxy_type} proxies to check."
 
         proxies.each do |proxy|
-          case mode
+          case self.mode.to_sym
             when :synchronous
               check_proxy(proxy, update: update)
             when :sidekiq
