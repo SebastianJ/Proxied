@@ -31,6 +31,9 @@ module Mongoid
   field :proxy_type, type: String, default: :public
   field :category, type: String
   
+  field :country, type: String
+  field :city, type: String
+  
   field :valid_proxy, type: Boolean, default: false
   field :successful_attempts, type: Integer, default: 0
   field :failed_attempts, type: Integer, default: 0
