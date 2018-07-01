@@ -27,7 +27,7 @@ module Proxied
           case self.mode.to_sym
             when :synchronous
               check_proxy(proxy, update: update)
-            when :sidekiq
+            when :asynchronous
               ::Proxied::Jobs::CheckProxyJob.perform_async(proxy.id.to_s)
           end
         end
