@@ -36,13 +36,15 @@ Generate the migration and model:
 
 Features:
 
-* Model + migration for managing the proxy data
+* ActiveRecord model and migration or Mongoid model for managing your proxy data.
 
-* Common model methods for selecting random proxies (based on protocol, etc.) for both ActiveRecord and Mongoid
+* Common model methods for selecting random proxies (based on protocol, etc.) for both ActiveRecord and Mongoid.
 
-* A proxy checker to check the status for HTTP(S) and Socks proxies (with configurable test setups)
+* A proxy checker to check the status for HTTP(S) and Socks proxies (with configurable test setups).
 
 * An importer that will bulk import proxies for you.
+
+* Sidekiq jobs to asynchronously check proxies.
 
 ## Usage
 
