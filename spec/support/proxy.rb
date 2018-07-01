@@ -1,6 +1,6 @@
 require "virtus"
 
-class Proxy
+class TestProxy
   include Virtus.model
   
   attribute :host,                String

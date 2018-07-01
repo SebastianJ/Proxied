@@ -4,6 +4,7 @@ module Proxied
     attr_accessor :minimum_successful_attempts, :maximum_failed_attempts
     attr_accessor :faraday
     attr_accessor :http_test, :socks_test
+    attr_accessor :job_queue
     attr_accessor :logger
   
     def initialize      
@@ -29,6 +30,8 @@ module Proxied
         query:    "=google.com",
         timeout:  10
       }
+      
+      self.job_queue        =   :proxies
       
       self.logger           =   defined?(Rails) ? -> (message) { Rails.logger.info(message) } : -> (message) { puts(message) }
     end

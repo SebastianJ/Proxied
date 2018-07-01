@@ -22,5 +22,7 @@
     timeout:  10
   }
   
+  config.job_queue        =   :proxies
+  
   config.logger           =   defined?(Rails) ? -> (message) { Rails.logger.info(message) } : -> (message) { puts(message) }
 end

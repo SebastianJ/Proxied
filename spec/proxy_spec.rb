@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-RSpec.describe Proxy do
-  let(:proxy) { Proxy.new(host: "127.0.0.1", port: 8888, username: "pr0xyUsr", password: "12345") }
+RSpec.describe TestProxy do
+  let(:proxy) { TestProxy.new(host: "127.0.0.1", port: 8888, username: "pr0xyUsr", password: "12345") }
   
   it "should generate the correct proxy address with http:// as a prefix" do
     expect(proxy.proxy_address(true)).to eq "http://127.0.0.1:8888"

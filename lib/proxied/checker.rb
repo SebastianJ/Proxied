@@ -9,7 +9,7 @@ module Proxied
       self.limit                        =   limit
     end
 
-    def check_proxies(protocol: :all, proxy_type: :all, mode: :synchronous)
+    def check_proxies(protocol: :all, proxy_type: :all, mode: :synchronous, update: true)
       proxies                           =   ::Proxied.configuration.proxy_class.should_be_checked(
         protocol:                 protocol,
         proxy_type:               proxy_type,
@@ -24,7 +24,7 @@ module Proxied
         proxies.each do |proxy|
           case mode
             when :synchronous
-              check_proxy(proxy)
+              check_proxy(proxy, update: update)
             when :sidekiq
               ::Proxied::Jobs::CheckProxyJob.perform_async(proxy.id.to_s)
           end
