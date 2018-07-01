@@ -1,5 +1,5 @@
 module Proxied
-  class Seeder
+  class Importer
     
     # Expected format:
     # {

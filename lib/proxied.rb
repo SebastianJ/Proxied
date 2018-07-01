@@ -34,6 +34,7 @@ require "proxied/sql/proxy_methods" if defined?(ActiveRecord)
 require "proxied/nosql/proxy_methods" if defined?(Mongoid)
 
 require "proxied/checker"
+require "proxied/importer"
 
 if defined?(Sidekiq)
   require "proxied/jobs/check_proxies_job"
