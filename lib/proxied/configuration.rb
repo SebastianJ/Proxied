@@ -16,7 +16,7 @@ module Proxied
       self.faraday          =   {
         adapter:    :net_http,
         user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15",
-        verbose:    true
+        verbose:    false
       }
       
       self.http_test        =   {
