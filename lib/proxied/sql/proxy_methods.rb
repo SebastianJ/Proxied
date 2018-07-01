@@ -4,10 +4,10 @@ module Proxied
     module ProxyMethods
     
       def self.included(base)
-        base.send :extend ::Proxied::Shared::ClassMethods
-        base.send :extend, ClassMethods
+        base.extend(::Proxied::Shared::ClassMethods)
+        base.extend(ClassMethods)
         
-        base.send :include ::Proxied::Shared::InstanceMethods
+        base.include(::Proxied::Shared::InstanceMethods)
       end
 
       module ClassMethods
