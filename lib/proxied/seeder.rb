@@ -27,7 +27,7 @@ module Proxied
           password:   proxy_item.fetch(:password, nil)&.to_s&.strip
         }.merge(query)
     
-        proxy                       =   ::Proxied.configuration.proxy_class.where(query).first || ::Proxied.configuration.proxy_class.new
+        proxy                       =   ::Proxied.configuration.proxy_class.constantize.where(query).first || ::Proxied.configuration.proxy_class.constantize.new
     
         parsed.each do |key, value|
           proxy.send("#{key}=", value)

@@ -10,7 +10,7 @@ module Proxied
     end
 
     def check_proxies(protocol: :all, proxy_type: :all, mode: :synchronous, update: true)
-      proxies                           =   ::Proxied.configuration.proxy_class.should_be_checked(
+      proxies                           =   ::Proxied.configuration.proxy_class.constantize.should_be_checked(
         protocol:                 protocol,
         proxy_type:               proxy_type,
         date:                     Time.now,

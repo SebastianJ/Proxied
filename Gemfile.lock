@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     proxied (0.1.0)
-      faraday (~> 0.15.2)
-      net-ssh (~> 5.0.2)
+      faraday (>= 0.14)
+      net-ssh (>= 4.0)
 
 GEM
   remote: https://rubygems.org/
