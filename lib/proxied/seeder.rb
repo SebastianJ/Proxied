@@ -20,9 +20,9 @@ module Proxied
         }
     
         parsed                      =   {
-          protocol:   proxy_item.fetch(:protocol, args.protocol)&.to_s&.strip&.downcase,
+          protocol:   proxy_item.fetch(:protocol, "http")&.to_s&.strip&.downcase,
           proxy_type: proxy_item.fetch(:type, :private)&.to_s&.strip,
-          category:   proxy_item.fetch(:category, args.category)&.to_s&.strip&.downcase,
+          category:   proxy_item.fetch(:category, nil)&.to_s&.strip&.downcase,
           username:   proxy_item.fetch(:username, nil)&.to_s&.strip,
           password:   proxy_item.fetch(:password, nil)&.to_s&.strip
         }.merge(query)
@@ -39,7 +39,7 @@ module Proxied
     
         proxy.save
       end
-    end    
+    end
     
   end
 end
