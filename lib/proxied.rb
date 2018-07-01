@@ -1,3 +1,21 @@
+module Proxied
+  class << self
+    attr_writer :configuration
+  end
+
+  def self.configuration
+    @configuration ||= ::Proxied::Configuration.new
+  end
+
+  def self.reset
+    @configuration = ::Proxied::Configuration.new
+  end
+
+  def self.configure
+    yield(configuration)
+  end
+end
+
 # Gems
 require "faraday"
 require "net/ssh/proxy/socks5"
@@ -23,21 +41,3 @@ if defined?(Sidekiq)
 end
 
 require "proxied/railtie" if defined?(Rails)
-
-module Proxied
-  class << self
-    attr_writer :configuration
-  end
-
-  def self.configuration
-    @configuration ||= ::Proxied::Configuration.new
-  end
-
-  def self.reset
-    @configuration = ::Proxied::Configuration.new
-  end
-
-  def self.configure
-    yield(configuration)
-  end
-end
