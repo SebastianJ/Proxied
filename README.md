@@ -32,10 +32,25 @@ Generate the migration and model:
 
     $ rails generate proxied MODEL
 
+## Features
+
+Features:
+
+* Model + migration for managing the proxy data
+
+* Common model methods for selecting random proxies (based on protocol, etc.) for both ActiveRecord and Mongoid
+
+* A proxy checker to check the status for HTTP(S) and Socks proxies (with configurable test setups)
+
+* An importer that will bulk import proxies for you.
 
 ## Usage
 
-- TODO -
+1. Set up the gem according to the installation instructions.
+2. Import proxies.
+3. Schedule the rake task (proxied:check_proxies) using cron or schedule the Sidekiq job (Proxied::Jobs::CheckProxiesJob) using a scheduler for Sidekiq.
+4. Use the model methods to query for valid proxies (the maximum failed attempts etc. are configurable using the global Proxied.configure-method).
+5. Use the proxies/proxy from the resulting query to perform HTTP(S) or SOCKS requests using the proxy. Some helper methods, e.g. #proxy_options_for_faraday are included to help with integration with some common gems.
 
 ## Development
 
