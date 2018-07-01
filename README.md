@@ -28,9 +28,13 @@ Generate the initializer for your Rails app:
 
     $ rails generate proxied:install MODEL
 
-Generate the migration and model:
+If you're using ActiveRecord, generate the migration and model:
 
     $ rails generate proxied MODEL
+
+If you're using Mongoid, generate the model using the following command:
+
+    $ rails generate proxied MODEL --orm=mongoid
 
 ## Features
 
