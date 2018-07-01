@@ -24,6 +24,15 @@ Or install it yourself as:
 
     $ gem install proxied
 
+Generate the initializer for your Rails app:
+
+    $ rails generate proxied:install MODEL
+
+Generate the migration and model:
+
+    $ rails generate proxied MODEL
+
+
 ## Usage
 
 - TODO -
