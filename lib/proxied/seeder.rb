@@ -17,7 +17,7 @@ module Proxied
     def self.import(proxies)
       proxies.each do |proxy_item|
         query                       =   {
-          host:       proxy_item[:ip_address]&.to_s&.strip,
+          host:       proxy_item[:host]&.to_s&.strip,
           port:       proxy_item[:port]&.to_s&.strip&.to_i
         }
     
