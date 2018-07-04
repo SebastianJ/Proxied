@@ -4,7 +4,7 @@ module Proxied
     class << self
       
       def format_proxy_address(host:, port: 80, include_http: false)
-        address                   =   "#{host}:#{port}"
+        address                   =   "#{host.strip}:#{port}"
         address                   =   "http://#{address}" if include_http && !address.start_with?("http://")
         
         return address
