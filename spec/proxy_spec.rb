@@ -4,11 +4,11 @@ RSpec.describe TestProxy do
   let(:proxy) { TestProxy.new(host: "127.0.0.1", port: 8888, username: "pr0xyUsr", password: "12345") }
   
   it "should generate the correct proxy address with http:// as a prefix" do
-    expect(proxy.proxy_address(true)).to eq "http://127.0.0.1:8888"
+    expect(proxy.proxy_address(include_http: true)).to eq "http://127.0.0.1:8888"
   end
   
   it "should generate the correct proxy address without http:// as a prefix" do
-    expect(proxy.proxy_address(false)).to eq "127.0.0.1:8888"
+    expect(proxy.proxy_address(include_http: false)).to eq "127.0.0.1:8888"
   end
   
   it "should generate a formatted username:password combination" do

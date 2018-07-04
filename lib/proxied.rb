@@ -28,6 +28,7 @@ require "proxied/version"
 
 require "proxied/configuration"
 require "proxied/logger"
+require "proxied/utilities"
 
 require "proxied/shared"
 require "proxied/sql/proxy_methods" if defined?(ActiveRecord)

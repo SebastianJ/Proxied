@@ -10,43 +10,31 @@ module Proxied
         return proxies
       end
 
-      def format_proxy_address(proxy_host, proxy_port = 80, include_http = false)
-        proxy_address = "#{proxy_host}:#{proxy_port}"
-        proxy_address.insert(0, "http://") if (include_http && !proxy_address.start_with?("http://"))
-        return proxy_address
+      # Keep these for compatibility for now, they just wrap the utility functions
+      def format_proxy_address(host, port = 80, include_http = false)
+        ::Proxied::Utilities.format_proxy_address(host: host, port: port, include_http: include_http)
       end
 
       def format_proxy_credentials(username, password)
-        return "#{username}:#{password}"
+        ::Proxied::Utilities.format_proxy_credentials(username, password)
       end
     end
 
     module InstanceMethods
-      def proxy_address(include_http = false)
-        return self.class.format_proxy_address(self.host, self.port, include_http)
+      def proxy_address(include_http: false)
+        ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, include_http: include_http)
       end
 
       def proxy_credentials
-        return self.class.format_proxy_credentials(self.username, self.password)
+        ::Proxied::Utilities.format_proxy_credentials(self.username, self.password)
       end
 
       def socks_proxy_credentials
-        credentials               =   {}
-        
-        credentials[:user]        =   self.username if !self.username.to_s.empty?
-        credentials[:password]    =   self.password if !self.password.to_s.empty?
-
-        return credentials
+        ::Proxied::Utilities.socks_proxy_credentials(username: self.username, password: self.password)
       end
       
       def proxy_options_for_faraday
-        proxy_options             =   {}
-    
-        proxy_options[:uri]       =   self.class.format_proxy_address(self.host, self.port, true)
-        proxy_options[:user]      =   self.username if !self.username.to_s.empty?
-        proxy_options[:password]  =   self.password if !self.password.to_s.empty?
-    
-        return proxy_options
+        ::Proxied::Utilities.proxy_options_for_faraday(host: self.host, port: self.port, username: self.username, password: self.password)
       end
     end
         
