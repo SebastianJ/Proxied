@@ -68,10 +68,10 @@ module Proxied
     end
     
     def check_http_proxy(proxy, test_url: ::Proxied.configuration.http_test[:url], timeout: ::Proxied.configuration.http_test[:timeout], update: true)
-      ::Proxied::Logger.log "#{Time.now}: Fetching robots.txt for Google.com with proxy #{proxy.proxy_address}."
+      ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address}."
 
       response        =   request(test_url, proxy, options: {timeout: timeout})
-      valid_proxy     =   (response && !(response =~ /Allow: \/search\/about/i).nil?)
+      valid_proxy     =   response.to_s.strip.eql?(proxy.host.strip)
 
       update_proxy(proxy, valid_proxy) if update
       

@@ -20,7 +20,7 @@ module Proxied
       }
       
       self.http_test        =   {
-        url:      "http://www.google.com/robots.txt",
+        url:      "http://ipinfo.io/ip",
         timeout:  10,
       }
       
