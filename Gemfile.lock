@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    proxied (0.1.3)
+    proxied (0.1.4)
       faraday (>= 0.14)
       net-ssh (>= 4.0)
 

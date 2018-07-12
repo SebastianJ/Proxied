@@ -23,7 +23,7 @@ module Proxied
         return credentials
       end
       
-      def proxy_options_for_faraday(host:, port:, username: nil, password: nil)
+      def proxy_options_for_faraday(host:, port: 80, username: nil, password: nil)
         proxy_options             =   {}
     
         proxy_options[:uri]       =   format_proxy_address(host: host, port: port, include_http: true)
@@ -31,6 +31,16 @@ module Proxied
         proxy_options[:password]  =   password if !password.to_s.empty?
     
         return proxy_options
+      end
+      
+      def format_proxy_switcher_address(host:, port: 80, username: nil, password: nil)
+        address                   =   ""
+        
+        if !username.to_s.empty? && !password.to_s.empty?
+          address                +=   "#{username}:#{password}@"
+        end
+        
+        address                  +=   "#{host}:#{port}"
       end
       
     end
