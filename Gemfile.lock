@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    proxied (0.1.5)
+    proxied (0.1.6)
       faraday (>= 0.14)
       net-ssh (>= 4.0)
 
@@ -99,7 +99,7 @@ GEM
     multipart-post (2.0.0)
     net-ssh (5.0.2)
     nio4r (2.3.1)
-    nokogiri (1.8.3)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     pry (0.11.3)
       coderay (~> 1.1.0)
