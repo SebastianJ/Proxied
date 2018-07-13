@@ -4,6 +4,7 @@ http:
     protocol: http
     username: USERNAME
     password: PASSWORD
+    country: COUNTRY
 
 socks:
   - host: "127.0.0.1"
@@ -11,3 +12,4 @@ socks:
     protocol: socks
     username: USERNAME
     password: PASSWORD
+    country: COUNTRY    

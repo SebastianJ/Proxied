@@ -37,8 +37,8 @@ module Proxied
         ::Proxied::Utilities.proxy_options_for_faraday(host: self.host, port: self.port, username: self.username, password: self.password)
       end
       
-      def proxy_switcher_address
-        ::Proxied::Utilities.format_proxy_switcher_address(host: self.host, port: self.port, username: self.username, password: self.password)
+      def proxy_switcher_import_format
+        ::Proxied::Utilities.proxy_switcher_import_format(host: self.host, port: self.port, username: self.username, password: self.password, country: self.country)
       end
     end
         

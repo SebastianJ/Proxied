@@ -33,8 +33,15 @@ module Proxied
         return proxy_options
       end
       
-      def format_proxy_switcher_address(host:, port: 80, username: nil, password: nil)
+      def proxy_switcher_import_format(host:, port: 80, username: nil, password: nil, country: nil)
+        # Format:
+        # COUNTRY_CODE,COUNTRY_NAME,CITY,USERNAME:PASSWORD@IP_ADDRESS:PORT
+        
         address                   =   ""
+                
+        if !country.to_s.empty?
+          address                +=   "#{country.upcase},,,"
+        end
         
         if !username.to_s.empty? && !password.to_s.empty?
           address                +=   "#{username}:#{password}@"

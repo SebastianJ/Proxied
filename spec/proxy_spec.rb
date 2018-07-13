@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe TestProxy do
-  let(:proxy) { TestProxy.new(host: "127.0.0.1", port: 8888, username: "pr0xyUsr", password: "12345") }
+  let(:proxy) { TestProxy.new(host: "127.0.0.1", port: 8888, username: "pr0xyUsr", password: "12345", country: "uk") }
   
   it "should generate the correct proxy address with http:// as a prefix" do
     expect(proxy.proxy_address(include_http: true)).to eq "http://127.0.0.1:8888"
@@ -21,5 +21,9 @@ RSpec.describe TestProxy do
   
   it "should generate a correct options hash to be used with Faraday" do
     expect(proxy.proxy_options_for_faraday).to eq({uri: "http://127.0.0.1:8888", user: "pr0xyUsr", password: "12345"})
+  end
+  
+  it "should generate a correct import format for the Proxy Switcher plugin " do
+    expect(proxy.proxy_switcher_import_format).to eq("UK,,,pr0xyUsr:12345@127.0.0.1:8888")    
   end
 end

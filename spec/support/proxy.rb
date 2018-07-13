@@ -10,6 +10,8 @@ class TestProxy
   attribute :protocol,            String
   attribute :proxy_type,          String
   attribute :category,            String
+  attribute :country,             String
+  attribute :city,                String    
   attribute :valid_proxy,         Boolean
   attribute :successful_attempts, Integer
   attribute :failed_attempts,     Integer
