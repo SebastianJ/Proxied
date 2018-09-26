@@ -32,14 +32,17 @@ module Proxied
           return proxies
         end
       
-        def get_valid_proxies(protocol: :all, proxy_type: :all, maximum_failed_attempts: nil, retries: 3)
+        def get_valid_proxies(protocol: :all, proxy_type: :all, category: nil, maximum_failed_attempts: nil)
           proxies     =   get_proxies_for_protocol_and_proxy_type(protocol, proxy_type)
           proxies     =   proxies.where(valid_proxy: true)
           proxies     =   proxies.where(:failed_attempts.lte => maximum_failed_attempts) if maximum_failed_attempts
+          proxies     =   proxies.where(category: category) unless category.to_s.empty?
         end
       
-        def get_random_proxy(protocol: :all, proxy_type: :all, maximum_failed_attempts: nil, retries: 3)
-          proxies     =   get_valid_proxies(protocol: protocol, proxy_type: proxy_type, maximum_failed_attempts: maximum_failed_attempts)
+        def get_random_proxy(protocol: :all, proxy_type: :all, category: nil, maximum_failed_attempts: nil, retries: 3)
+          proxies     =   get_valid_proxies(protocol: protocol, proxy_type: proxy_type, category: category, maximum_failed_attempts: maximum_failed_attempts)
+          proxies     =   yield(proxies) if block_given?
+          
           proxy       =   nil
           
           begin
