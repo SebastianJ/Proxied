@@ -23,25 +23,25 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
   
-  spec.add_dependency "faraday",                    ">= 0.14"
-  spec.add_dependency "net-ssh",                    ">= 4.0"
+  spec.add_dependency "faraday",                    ">= 0.15.4"
+  spec.add_dependency "net-ssh",                    ">= 5.1"
   
-  spec.add_development_dependency "bundler",        "~> 1.16.2"
-  spec.add_development_dependency "rake",           "~> 12.3.1"
-  spec.add_development_dependency "appraisal",      "~> 2.2"
+  spec.add_development_dependency "bundler",        ">= 1.17.2"
+  spec.add_development_dependency "rake",           ">= 12.3.2"
+  spec.add_development_dependency "appraisal",      ">= 2.2.0"
   
-  spec.add_development_dependency "virtus",         "~> 1.0", ">= 1.0.5"
+  spec.add_development_dependency "virtus",         ">= 1.0"
   
-  spec.add_development_dependency "rspec-rails",    '~> 3.7', '>= 3.7.2'
-  spec.add_development_dependency "rspec-core",     '~> 3.7', '>= 3.7.1'
-  spec.add_development_dependency "rspec-expectations", '~> 3.7'
-  spec.add_development_dependency "rspec-mocks",    '~> 3.7'
-  spec.add_development_dependency "rspec-support",  '~> 3.7', '>= 3.7.1'
-  spec.add_development_dependency "generator_spec", "~> 0.9.4"
+  spec.add_development_dependency "rspec-rails",    ">= 3.8.2"
+  spec.add_development_dependency "rspec-core",     ">= 3.8"
+  spec.add_development_dependency "rspec-expectations", ">= 3.8.2"
+  spec.add_development_dependency "rspec-mocks",    ">= 3.8"
+  spec.add_development_dependency "rspec-support",  ">= 3.8"
+  spec.add_development_dependency "generator_spec", ">= 0.9.4"
   
-  spec.add_development_dependency "rdoc",           "~> 6.0.4"
-  spec.add_development_dependency "vcr",            "~> 4.0"
-  spec.add_development_dependency "webmock",        "~> 3.4.2"
+  spec.add_development_dependency "rdoc",           ">= 6.1.1"
+  spec.add_development_dependency "vcr",            ">= 4.0"
+  spec.add_development_dependency "webmock",        ">= 3.5.1"
   
-  spec.add_development_dependency "pry",            "~> 0.11.3"  
+  spec.add_development_dependency "pry",            ">= 0.12.2"  
 end
