@@ -13,11 +13,11 @@ module Proxied
 
     def check_proxies(protocol: :all, proxy_type: :all, update: true)
       proxies                           =   ::Proxied.configuration.proxy_class.constantize.should_be_checked(
-        protocol:                 protocol,
-        proxy_type:               proxy_type,
-        date:                     Time.now,
-        limit:                    self.limit,
-        maximum_failed_attempts:  self.maximum_failed_attempts
+        protocol:                protocol,
+        proxy_type:              proxy_type,
+        date:                    Time.now,
+        limit:                   self.limit,
+        maximum_failed_attempts: self.maximum_failed_attempts
       )
 
       if proxies&.any?
@@ -70,8 +70,8 @@ module Proxied
     def check_http_proxy(proxy, test_url: ::Proxied.configuration.http_test[:url], evaluate: ::Proxied.configuration.http_test[:evaluate], timeout: ::Proxied.configuration.http_test[:timeout], update: true)
       ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address} (#{proxy.ip_address})."
       
-      response        =   request(test_url, proxy, options: {timeout: timeout})
-      valid_proxy     =   evaluate.call(proxy, response)
+      response                    =   request(test_url, proxy, options: {timeout: timeout})
+      valid_proxy                 =   evaluate.call(proxy, response)
 
       update_proxy(proxy, valid_proxy, response) if update
       
