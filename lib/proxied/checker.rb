@@ -68,18 +68,21 @@ module Proxied
     end
     
     def check_http_proxy(proxy, test_url: ::Proxied.configuration.http_test[:url], evaluate: ::Proxied.configuration.http_test[:evaluate], timeout: ::Proxied.configuration.http_test[:timeout], update: true)
-      ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address}."
+      ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address} (#{proxy.ip_address})."
 
       response        =   request(test_url, proxy, options: {timeout: timeout})
       valid_proxy     =   evaluate.call(proxy, response)
 
-      update_proxy(proxy, valid_proxy) if update
+      update_proxy(proxy, valid_proxy, response) if update
       
       return valid_proxy
     end
     
-    def update_proxy(proxy, valid)
-      ::Proxied::Logger.log "#{Time.now}: Proxy #{proxy.proxy_address} is #{valid ? "working" : "not working"}!"
+    def update_proxy(proxy, valid, response)
+      log_message                 =   "#{Time.now}: Proxy #{proxy.proxy_address} (#{proxy.ip_address}) is #{valid ? "working" : "not working"}!"
+      log_message                 =   "#{log_message} Response: #{response}" unless valid
+      
+      ::Proxied::Logger.log log_message
       
       successful_attempts         =   proxy.successful_attempts || 0
       failed_attempts             =   proxy.failed_attempts || 0
