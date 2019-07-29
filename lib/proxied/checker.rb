@@ -107,7 +107,7 @@ module Proxied
       def request(url, proxy, options: {})
         response                  =   nil
         
-        user_agent                =   options.fetch(:user_agent, ::Proxied.configuration.faraday.fetch(:user_agent, nil))
+        user_agent                =   options.fetch(:user_agent, ::Proxied.configuration.faraday.fetch(:user_agent, nil)&.call)
         timeout                   =   options.fetch(:timeout, ::Proxied.configuration.http_test[:timeout])
         
         begin
