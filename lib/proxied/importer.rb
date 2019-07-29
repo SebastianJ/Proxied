@@ -16,12 +16,17 @@ module Proxied
     
     def self.import(proxies)
       proxies.each do |proxy_item|
+        host                        =   proxy_item[:host]&.to_s&.strip&.downcase
+        port                        =   proxy_item[:port]&.to_s&.strip&.to_i
+        ip_address                  =   proxy_item.fetch(:ip_address, host)&.to_s&.strip&.downcase
+        
         query                       =   {
-          host:       proxy_item[:host]&.to_s&.strip,
-          port:       proxy_item[:port]&.to_s&.strip&.to_i
+          host:       host,
+          port:       port
         }
     
         parsed                      =   {
+          ip_address: ip_address,
           protocol:   proxy_item.fetch(:protocol, "http")&.to_s&.strip&.downcase,
           proxy_type: proxy_item.fetch(:type, :private)&.to_s&.strip,
           category:   proxy_item.fetch(:category, nil)&.to_s&.strip&.downcase,

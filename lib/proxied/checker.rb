@@ -67,11 +67,11 @@ module Proxied
       return valid_proxy
     end
     
-    def check_http_proxy(proxy, test_url: ::Proxied.configuration.http_test[:url], timeout: ::Proxied.configuration.http_test[:timeout], update: true)
+    def check_http_proxy(proxy, test_url: ::Proxied.configuration.http_test[:url], evaluate: ::Proxied.configuration.http_test[:evaluate], timeout: ::Proxied.configuration.http_test[:timeout], update: true)
       ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address}."
 
       response        =   request(test_url, proxy, options: {timeout: timeout})
-      valid_proxy     =   response.to_s.strip.eql?(proxy.host.strip)
+      valid_proxy     =   evaluate.call(proxy, response)
 
       update_proxy(proxy, valid_proxy) if update
       

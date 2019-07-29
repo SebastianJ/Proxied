@@ -20,16 +20,16 @@ module ActiveRecord
       end
       
       def inject_proxied_content
-        content = model_contents
+        content       =   model_contents
 
-        class_path = if namespaced?
+        class_path    =   if namespaced?
           class_name.to_s.split("::")
         else
           [class_name]
         end
 
-        indent_depth = class_path.size - 1
-        content = content.split("\n").map { |line| "  " * indent_depth + line } .join("\n") << "\n"
+        indent_depth  =   class_path.size - 1
+        content       =   content.split("\n").map { |line| "  " * indent_depth + line } .join("\n") << "\n"
 
         inject_into_class(model_path, class_path.last, content) if model_exists?
       end
@@ -40,8 +40,8 @@ module ActiveRecord
 RUBY
       end
 
-      def rails5?
-        Rails.version.start_with? '5'
+      def should_version_migration?
+        !(Rails.version.to_s =~ /^(5|6)/i).nil?
       end
 
       def postgresql?
@@ -49,20 +49,21 @@ RUBY
         config && config['adapter'] == 'postgresql'
       end
 
-     def migration_version
-       if rails5?
-         "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
-       end
-     end
+      def migration_version
+        if should_version_migration?
+          "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+        end
+      end
 
-     def primary_key_type
-       primary_key_string if rails5?
-     end
+      def primary_key_type
+        primary_key_string if should_version_migration?
+      end
 
-     def primary_key_string
-       key_string = options[:primary_key_type]
-       ", id: :#{key_string}" if key_string
-     end
+      def primary_key_string
+        key_string = options[:primary_key_type]
+        ", id: :#{key_string}" if key_string
+      end
+     
     end
   end
 end

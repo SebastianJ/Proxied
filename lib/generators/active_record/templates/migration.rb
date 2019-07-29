@@ -4,6 +4,7 @@ class ProxiedCreate<%= table_name.camelize %> < ActiveRecord::Migration<%= migra
   def change
     create_table :<%= table_name %><%= primary_key_type %> do |t|
       t.string  :host,                  null: false, index: true
+      t.string  :ip_address,            null: false, index: true
       t.integer :port,                  null: false, index: true
       t.string  :username
       t.string  :password

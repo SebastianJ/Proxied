@@ -22,6 +22,7 @@ module Mongoid
   
   # Fields
   field :host, type: String
+  field :ip_address, type: String
   field :port, type: Integer
   
   field :username, type: String

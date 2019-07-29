@@ -21,6 +21,7 @@ module Proxied
       
       self.http_test        =   {
         url:      "http://ipinfo.io/ip",
+        evaluate: -> (proxy, response) { response.to_s.strip.eql?(proxy.ip_address.strip) },
         timeout:  10,
       }
       
