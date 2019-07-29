@@ -40,7 +40,8 @@ module Mongoid
   field :successful_attempts, type: Integer, default: 0
   field :failed_attempts, type: Integer, default: 0
   
-  field :async_supported, type: Boolean, default: true
+  field :checkable, type: Boolean, default: true
+  field :asyncable, type: Boolean, default: true
   
   field :last_checked_at, type: DateTime
   

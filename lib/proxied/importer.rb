@@ -35,7 +35,8 @@ module Proxied
           username:        proxy_item.fetch(:username, nil)&.to_s&.strip,
           password:        proxy_item.fetch(:password, nil)&.to_s&.strip,
           auth_mode:       proxy_item.fetch(:auth_mode, :credentials)&.to_s&.strip,
-          async_supported: proxy_item.fetch(:async_supported, true)&.to_s&.strip,
+          checkable:       proxy_item.fetch(:checkable, true),
+          asyncable:       proxy_item.fetch(:asyncable, true),
         }.merge(query)
     
         proxy                       =   ::Proxied.configuration.proxy_class.constantize.where(query).first || ::Proxied.configuration.proxy_class.constantize.new

@@ -13,7 +13,8 @@ module Proxied
       module ClassMethods
         def should_be_checked(mode: :synchronous, protocol: :all, proxy_type: :all, category: nil, date: Time.now, limit: nil, maximum_failed_attempts: 10)
           proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category)
-          proxies     =   proxies.where(async_supported: true) if mode.to_sym.eql?(:asynchronous)
+          proxies     =   proxies.where(checkable: true)
+          proxies     =   proxies.where(asyncable: true) if mode.to_sym.eql?(:asynchronous)
           proxies     =   proxies.where(["(last_checked_at IS NULL OR last_checked_at < ?)", date])
           proxies     =   proxies.where(["failed_attempts <= ?", maximum_failed_attempts])
           proxies     =   proxies.order("valid_proxy ASC, failed_attempts ASC, last_checked_at ASC")
