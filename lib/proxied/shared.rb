@@ -2,10 +2,11 @@ module Proxied
   module Shared
 
     module ClassMethods    
-      def get_proxies_for_protocol_and_proxy_type(protocol, proxy_type)
+      def get_proxies(protocol: :all, proxy_type: :all, category: nil)
         proxies     =   ::Proxy.where(nil)
         proxies     =   proxies.where(protocol: protocol)     if (protocol && !protocol.downcase.to_sym.eql?(:all))
         proxies     =   proxies.where(proxy_type: proxy_type) if (proxy_type && !proxy_type.downcase.to_sym.eql?(:all))
+        proxies     =   proxies.where(category: category) unless category.to_s.empty?
       
         return proxies
       end

@@ -27,6 +27,7 @@ module Mongoid
   
   field :username, type: String
   field :password, type: String
+  field :auth_mode, type: String, default: :credentials
   
   field :protocol, type: String, default: :http
   field :proxy_type, type: String, default: :public
@@ -38,6 +39,8 @@ module Mongoid
   field :valid_proxy, type: Boolean, default: false
   field :successful_attempts, type: Integer, default: 0
   field :failed_attempts, type: Integer, default: 0
+  
+  field :async_supported, type: Boolean, default: true
   
   field :last_checked_at, type: DateTime
   

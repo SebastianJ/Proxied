@@ -13,6 +13,7 @@ module Proxied
 
     def check_proxies(protocol: :all, proxy_type: :all, update: true)
       proxies                           =   ::Proxied.configuration.proxy_class.constantize.should_be_checked(
+        mode:                    self.mode.to_sym,
         protocol:                protocol,
         proxy_type:              proxy_type,
         date:                    Time.now,

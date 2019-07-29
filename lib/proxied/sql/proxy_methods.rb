@@ -11,21 +11,21 @@ module Proxied
       end
 
       module ClassMethods
-        def should_be_checked(protocol: :all, proxy_type: :all, date: Time.now, limit: 10, maximum_failed_attempts: 10)
-          proxies     =   get_proxies_for_protocol_and_proxy_type(protocol, proxy_type)
+        def should_be_checked(mode: :synchronous, protocol: :all, proxy_type: :all, category: nil, date: Time.now, limit: nil, maximum_failed_attempts: 10)
+          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category)
+          proxies     =   proxies.where(async_supported: true) if mode.to_sym.eql?(:asynchronous)
           proxies     =   proxies.where(["(last_checked_at IS NULL OR last_checked_at < ?)", date])
           proxies     =   proxies.where(["failed_attempts <= ?", maximum_failed_attempts])
           proxies     =   proxies.order("valid_proxy ASC, failed_attempts ASC, last_checked_at ASC")
-          proxies     =   proxies.limit(limit)
+          proxies     =   proxies.limit(limit) if limit && !limit.zero?
         
           return proxies
         end
       
         def get_valid_proxies(protocol: :all, proxy_type: :all, category: nil, maximum_failed_attempts: nil)
-          proxies     =   get_proxies_for_protocol_and_proxy_type(protocol, proxy_type)
+          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category)
           proxies     =   proxies.where(["valid_proxy = ? AND last_checked_at IS NOT NULL", true])
           proxies     =   proxies.where(["failed_attempts <= ?", maximum_failed_attempts]) if maximum_failed_attempts
-          proxies     =   proxies.where(category: category) unless category.to_s.empty?
 
           return proxies
         end
@@ -45,7 +45,7 @@ module Proxied
               "RAND() DESC"
           end
         
-          proxies     =   proxies.order(order_clause)
+          proxies     =   proxies.order(Arel.sql(order_clause))
         
           proxy       =   nil
         

@@ -18,6 +18,7 @@ class ProxiedCreate<%= table_name.camelize %> < ActiveRecord::Migration<%= migra
       t.string   :country,              index: true
       t.string   :city,                 index: true
       
+      t.boolean  :async_supported,      null: false, default: true, index: true
       t.datetime :last_checked_at,      index: true
       
       t.boolean  :valid_proxy,          null:  false, default: false, index: true
