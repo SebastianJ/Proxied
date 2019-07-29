@@ -21,15 +21,15 @@ module Proxied
       
       self.http_test        =   {
         url:      "http://ipinfo.io/ip",
-        evaluate: -> (proxy, response) { response.to_s.strip.eql?(proxy.ip_address.strip) },
-        timeout:  10,
+        evaluate: -> (proxy, response) { !(response&.to_s&.strip&.downcase =~ /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/i).nil? },
+        timeout:  30,
       }
       
       self.socks_test       =   {
         hostname: "whois.verisign-grs.com",
         port:     43,
         query:    "=google.com",
-        timeout:  10
+        timeout:  30
       }
       
       self.job_queue        =   :proxies

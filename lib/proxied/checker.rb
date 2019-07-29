@@ -70,10 +70,7 @@ module Proxied
     def check_http_proxy(proxy, test_url: ::Proxied.configuration.http_test[:url], evaluate: ::Proxied.configuration.http_test[:evaluate], timeout: ::Proxied.configuration.http_test[:timeout], update: true)
       ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address} (#{proxy.ip_address})."
       
-      options                 =   {timeout: timeout}
-      options[:basic_auth]    =   {username: proxy.username, password: proxy.password} if proxy.auth_mode&.to_sym&.eql?(:basic_auth)
-      
-      response        =   request(test_url, proxy, options: options)
+      response        =   request(test_url, proxy, options: {timeout: timeout})
       valid_proxy     =   evaluate.call(proxy, response)
 
       update_proxy(proxy, valid_proxy, response) if update
@@ -111,24 +108,20 @@ module Proxied
         
         user_agent                =   options.fetch(:user_agent, ::Proxied.configuration.faraday.fetch(:user_agent, nil))
         timeout                   =   options.fetch(:timeout, ::Proxied.configuration.http_test[:timeout])
-        basic_auth                =   options.fetch(:basic_auth, nil)
         
         begin
           response                =   ::Faraday.new(url: url) do |builder|
             builder.headers["User-Agent"]   =   user_agent if !user_agent.to_s.empty?
             builder.options[:timeout]       =   timeout if timeout
-            builder.proxy                   =   proxy.proxy_options_for_faraday
-            
-            builder.request  :basic_auth, basic_auth[:username], basic_auth[:password] if (basic_auth && !basic_auth.empty? && !basic_auth[:username].to_s.empty? && !basic_auth[:password].to_s.empty?)
-            
+            builder.proxy                   =   proxy.proxy_options_for_faraday            
             builder.response :logger if ::Proxied.configuration.verbose_faraday?
             builder.adapter ::Proxied.configuration.faraday.fetch(:adapter, :net_http)
-          end.get&.body
+          end
         rescue Faraday::Error => e
           ::Proxied::Logger.log "Exception occured while trying to check proxy #{proxy.proxy_address}. Error Class: #{e.class}. Error Message: #{e.message}"
         end
         
-        return response
+        return response.get&.body
       end
 
   end

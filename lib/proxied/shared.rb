@@ -34,7 +34,7 @@ module Proxied
       end
       
       def proxy_options_for_faraday
-        ::Proxied::Utilities.proxy_options_for_faraday(host: self.host, port: self.port, username: self.username, password: self.password)
+        ::Proxied::Utilities.proxy_options_for_faraday(host: self.host, port: self.port, username: self.username, password: self.password, auth_mode: self.auth_mode)
       end
       
       def proxy_switcher_import_format
