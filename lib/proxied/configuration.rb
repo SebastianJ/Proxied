@@ -5,7 +5,7 @@ module Proxied
     attr_accessor :faraday
     attr_accessor :http_test, :socks_test
     attr_accessor :job_queue
-    attr_accessor :logger
+    attr_accessor :logger, :log_level
   
     def initialize      
       self.proxy_class                  =   nil # Must be set to the ActiveRecord or Mongoid model that will be used for managing proxies
@@ -35,6 +35,7 @@ module Proxied
       }
       
       self.logger           =   defined?(Rails) ? -> (message) { Rails.logger.info(message) } : -> (message) { puts(message) }
+      self.log_level        =   :info
     end
     
     def verbose_faraday?

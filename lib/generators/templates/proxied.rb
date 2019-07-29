@@ -26,4 +26,5 @@
   }
   
   config.logger                       =   defined?(Rails) ? -> (message) { Rails.logger.info(message) } : -> (message) { puts(message) }
+  config.log_level                    =   :info
 end
