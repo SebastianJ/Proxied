@@ -78,9 +78,9 @@ module Proxied
       return valid_proxy
     end
     
-    def update_proxy(proxy, valid, response)
+    def update_proxy(proxy, valid, response = nil)
       log_message                 =   "#{Time.now}: Proxy #{proxy.proxy_address} (#{proxy.ip_address}) is #{valid ? "working" : "not working"}!"
-      log_message                 =   "#{log_message} Response: #{response}" unless valid
+      log_message                 =   "#{log_message} Response: #{response}" if !valid && response
       
       ::Proxied::Logger.log log_message
       
