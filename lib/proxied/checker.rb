@@ -119,7 +119,7 @@ module Proxied
             builder.options[:timeout]       =   timeout if timeout
             builder.proxy                   =   proxy.proxy_options_for_faraday
             
-            builder.request  :basic_authentication, basic_auth[:username], basic_auth[:password] if (basic_auth && !basic_auth.empty? && !basic_auth[:username].to_s.empty? && !basic_auth[:password].to_s.empty?)
+            builder.request  :basic_auth, basic_auth[:username], basic_auth[:password] if (basic_auth && !basic_auth.empty? && !basic_auth[:username].to_s.empty? && !basic_auth[:password].to_s.empty?)
             
             builder.response :logger if ::Proxied.configuration.verbose_faraday?
             builder.adapter ::Proxied.configuration.faraday.fetch(:adapter, :net_http)
