@@ -33,7 +33,8 @@ module Proxied
           country:    proxy_item.fetch(:country, nil)&.to_s&.strip&.upcase,
           city:       proxy_item.fetch(:city, nil)&.to_s&.strip&.downcase,
           username:   proxy_item.fetch(:username, nil)&.to_s&.strip,
-          password:   proxy_item.fetch(:password, nil)&.to_s&.strip
+          password:   proxy_item.fetch(:password, nil)&.to_s&.strip,
+          auth_mode:  proxy_item.fetch(:auth_mode, :credentials)&.to_s&.strip,
         }.merge(query)
     
         proxy                       =   ::Proxied.configuration.proxy_class.constantize.where(query).first || ::Proxied.configuration.proxy_class.constantize.new
