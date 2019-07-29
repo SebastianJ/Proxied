@@ -10,7 +10,7 @@ module Proxied
         log(message) if ::Proxied.configuration.log_level.to_sym.eql?(:debug)
       end
     
-      def self.log(message)
+      def log(message)
         ::Proxied.configuration.logger.call(message)
       end
       
