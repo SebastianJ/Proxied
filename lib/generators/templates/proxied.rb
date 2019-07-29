@@ -20,6 +20,9 @@
     verbose:    false
   }
   
+  # If you're using Typhoeus as adapter, consider setting the following setting either here or in a separate config/initializer:
+  # Ethon.logger = Logger.new(nil)
+  
   config.http_test                    =   {
     url:      "http://ipinfo.io/ip",
     evaluate: -> (proxy, response) { !(response&.to_s&.strip&.downcase =~ /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/i).nil? },
