@@ -9,7 +9,7 @@ class ProxiedCreate<%= table_name.camelize %> < ActiveRecord::Migration<%= migra
       
       t.string   :username
       t.string   :password
-      t.string   :auth_mode,            null: false, default: "credentials", index: true
+      t.string   :auth_mode,            null: false, default: 'credentials', index: true
       
       t.string   :protocol,             null: false, default: 'http', index: true
       t.string   :proxy_type,           null: false, default: 'public', index: true
