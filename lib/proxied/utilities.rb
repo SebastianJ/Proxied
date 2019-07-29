@@ -6,6 +6,8 @@ module Proxied
         address                   =   "#{host.strip}:#{port}"
         address                   =   "#{format_proxy_credentials(username, password)}@#{address}" if !username.to_s.empty? && !password.to_s.empty?
         address                   =   (include_http && !address.start_with?("http://")) ? "http://#{address}" : address
+        
+        return address
       end
 
       def format_proxy_credentials(username, password)
