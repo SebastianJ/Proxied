@@ -11,11 +11,12 @@ module Proxied
       self.limit                        =   limit
     end
 
-    def check_proxies(protocol: :all, proxy_type: :all, update: true)
+    def check_proxies(protocol: :all, proxy_type: :all, category: nil, update: true)
       proxies                           =   ::Proxied.configuration.proxy_class.constantize.should_be_checked(
         mode:                    self.mode.to_sym,
         protocol:                protocol,
         proxy_type:              proxy_type,
+        category:                category,
         date:                    Time.now,
         limit:                   self.limit,
         maximum_failed_attempts: self.maximum_failed_attempts
@@ -109,18 +110,21 @@ module Proxied
         timeout                   =   options.fetch(:timeout, ::Proxied.configuration.http_test[:timeout])
         
         begin
-          response                =   ::Faraday.new(url: url) do |builder|
+          connection              =   ::Faraday.new(url: url) do |builder|
             builder.headers["User-Agent"]   =   user_agent if !user_agent.to_s.empty?
             builder.options[:timeout]       =   timeout if timeout
             builder.proxy                   =   proxy.proxy_options_for_faraday            
             builder.response :logger if ::Proxied.configuration.verbose_faraday?
             builder.adapter ::Proxied.configuration.faraday.fetch(:adapter, :net_http)
           end
-        rescue Faraday::Error => e
+          
+          response                =   connection.get&.body
+          
+        rescue Faraday::TimeoutError, Faraday::Error => e
           ::Proxied::Logger.log "Exception occured while trying to check proxy #{proxy.proxy_address}. Error Class: #{e.class}. Error Message: #{e.message}"
         end
         
-        return response.get&.body
+        return response
       end
 
   end
