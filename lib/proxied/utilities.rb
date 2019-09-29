@@ -21,8 +21,8 @@ module Proxied
       def socks_proxy_credentials(username: nil, password: nil)
         credentials               =   {}
         
-        credentials[:user]        =   encode_credential(username) if !username.to_s.empty?
-        credentials[:password]    =   encode_credential(password) if !password.to_s.empty?
+        credentials[:user]        =   username if !username.to_s.empty?
+        credentials[:password]    =   password if !password.to_s.empty?
 
         return credentials
       end
