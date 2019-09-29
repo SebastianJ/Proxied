@@ -23,7 +23,12 @@ module Proxied
 
     module InstanceMethods
       def proxy_address(include_http: false)
-        ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, include_http: include_http)
+        case self.auth_mode.to_sym
+          when :credentials
+            ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, include_http: include_http)
+          when :basic_auth
+            ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, username: self.username, password: self.password, include_http: include_http)
+        end
       end
 
       def proxy_credentials
@@ -38,9 +43,6 @@ module Proxied
         ::Proxied::Utilities.proxy_options_for_faraday(host: self.host, port: self.port, username: self.username, password: self.password, auth_mode: self.auth_mode)
       end
       
-      def proxy_switcher_import_format
-        ::Proxied::Utilities.proxy_switcher_import_format(host: self.host, port: self.port, username: self.username, password: self.password, country: self.country)
-      end
     end
         
   end

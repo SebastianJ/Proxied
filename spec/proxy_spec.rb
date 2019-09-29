@@ -22,8 +22,4 @@ RSpec.describe TestProxy do
   it "should generate a correct options hash to be used with Faraday" do
     expect(proxy.proxy_options_for_faraday).to eq({uri: "http://127.0.0.1:8888", user: "pr0xyUsr", password: "12345"})
   end
-  
-  it "should generate a correct import format for the Proxy Switcher plugin " do
-    expect(proxy.proxy_switcher_import_format).to eq("UK,,,pr0xyUsr:12345@127.0.0.1:8888")    
-  end
 end
