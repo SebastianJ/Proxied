@@ -11,8 +11,8 @@ module Proxied
       end
 
       module ClassMethods
-        def should_be_checked(mode: :synchronous, protocol: :all, proxy_type: :all, category: nil, date: Time.now, limit: nil, maximum_failed_attempts: 10)
-          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category)
+        def should_be_checked(mode: :synchronous, protocol: :all, proxy_type: :all, category: nil, country: nil, date: Time.now, limit: nil, maximum_failed_attempts: 10)
+          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category, country: country)
           proxies     =   proxies.where(checkable: true)
           proxies     =   proxies.where(asyncable: true) if mode.to_sym.eql?(:asynchronous)
   
@@ -34,8 +34,8 @@ module Proxied
           return proxies
         end
       
-        def get_valid_proxies(protocol: :all, proxy_type: :all, category: nil, maximum_failed_attempts: nil)
-          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category)
+        def get_valid_proxies(protocol: :all, proxy_type: :all, category: nil, country: nil, maximum_failed_attempts: nil)
+          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category, country: country)
           proxies     =   proxies.where(valid_proxy: true)
           proxies     =   proxies.where(:failed_attempts.lte => maximum_failed_attempts) if maximum_failed_attempts
         end

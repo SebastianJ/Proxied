@@ -11,8 +11,8 @@ module Proxied
       end
 
       module ClassMethods
-        def should_be_checked(mode: :synchronous, protocol: :all, proxy_type: :all, category: nil, date: Time.now, limit: nil, maximum_failed_attempts: 10)
-          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category)
+        def should_be_checked(mode: :synchronous, protocol: :all, proxy_type: :all, category: nil, country: nil, date: Time.now, limit: nil, maximum_failed_attempts: 10)
+          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category, country: country)
           proxies     =   proxies.where(checkable: true)
           proxies     =   proxies.where(asyncable: true) if mode.to_sym.eql?(:asynchronous)
           proxies     =   proxies.where(["(last_checked_at IS NULL OR last_checked_at < ?)", date])
@@ -23,16 +23,16 @@ module Proxied
           return proxies
         end
       
-        def get_valid_proxies(protocol: :all, proxy_type: :all, category: nil, maximum_failed_attempts: nil)
-          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category)
+        def get_valid_proxies(protocol: :all, proxy_type: :all, category: nil, country: nil, maximum_failed_attempts: nil)
+          proxies     =   get_proxies(protocol: protocol, proxy_type: proxy_type, category: category, country: country)
           proxies     =   proxies.where(["valid_proxy = ? AND last_checked_at IS NOT NULL", true])
           proxies     =   proxies.where(["failed_attempts <= ?", maximum_failed_attempts]) if maximum_failed_attempts
 
           return proxies
         end
       
-        def get_random_proxy(protocol: :all, proxy_type: :all, category: nil, maximum_failed_attempts: nil)
-          proxies     =   get_valid_proxies(protocol: protocol, proxy_type: proxy_type, category: category, maximum_failed_attempts: maximum_failed_attempts)
+        def get_random_proxy(protocol: :all, proxy_type: :all, category: nil, country: nil, maximum_failed_attempts: nil)
+          proxies     =   get_valid_proxies(protocol: protocol, proxy_type: proxy_type, category: category, country: country, maximum_failed_attempts: maximum_failed_attempts)
           proxies     =   yield(proxies) if block_given?
         
           order_clause = case ActiveRecord::Base.connection.class.name
