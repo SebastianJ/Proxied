@@ -4,10 +4,10 @@ module Proxied
     module ClassMethods    
       def get_proxies(protocol: :all, proxy_type: :all, category: nil, country: nil)
         proxies     =   ::Proxy.where(nil)
-        proxies     =   proxies.where(protocol: protocol)      if (protocol && !protocol.downcase.to_sym.eql?(:all))
-        proxies     =   proxies.where(proxy_type: proxy_type)  if (proxy_type && !proxy_type.downcase.to_sym.eql?(:all))
-        proxies     =   proxies.where(category: category)      unless category.to_s.empty?
-        proxies     =   proxies.where(country: country.upcase) unless country.to_s.empty?
+        proxies     =   proxies.where(protocol: protocol)          if (protocol && !protocol.downcase.to_sym.eql?(:all))
+        proxies     =   proxies.where(proxy_type: proxy_type)      if (proxy_type && !proxy_type.downcase.to_sym.eql?(:all))
+        proxies     =   proxies.where(category: category)          unless category.to_s.empty?
+        proxies     =   proxies.where(country: country.to_supcase) unless country.to_s.empty?
       
         return proxies
       end
