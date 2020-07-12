@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    proxied (0.2.5)
+    proxied (0.2.6)
       faraday (~> 1.0, >= 1.0.1)
       net-ssh (~> 6.1)
 
@@ -202,7 +202,7 @@ DEPENDENCIES
   generator_spec (~> 0.9.4)
   proxied!
   pry (~> 0.13.1)
-  rails (~> 6.0, >= 6.0.1)
+  rails (~> 6.0, >= 6.0.3.2)
   rake (~> 13.0, >= 13.0.1)
   rdoc (~> 6.2, >= 6.2.1)
   rspec-core (~> 3.9, >= 3.9.2)
