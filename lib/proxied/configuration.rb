@@ -7,8 +7,6 @@ module Proxied
     attr_accessor :faraday
     attr_accessor :http_test, :socks_test
     
-    
-  
     def initialize
       # The ActiveRecord or Mongoid model that will be used for managing proxies - Must be set otherwise the gem won't work!
       self.proxy_class                  =   nil
@@ -27,12 +25,12 @@ module Proxied
       # The settings below are for configuring the proxy checker service
       self.faraday          =   {
         adapter:    :net_http,
-        user_agent: -> { "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15" },
+        user_agent: -> { "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.2 Safari/605.1.15" },
         verbose:    false
       }
       
       self.http_test        =   {
-        url:      "http://ipinfo.io/ip",
+        url:      "https://ipinfo.io/ip",
         evaluate: -> (proxy, response) { !(response&.to_s&.strip&.downcase =~ /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/i).nil? },
         timeout:  30,
       }

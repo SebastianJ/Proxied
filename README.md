@@ -62,11 +62,18 @@ Features:
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
+### Appraisals
+
+Install appraisal dependencies (if not already done):
+```
+bundle exec appraisal install
+```
+
 To test specific appraisals/gemfiles, you can do
 
-* ActiveRecord: bundle exec appraisal activerecord5 rake spec
+* ActiveRecord: bundle exec appraisal activerecord6 rake spec
 
-In order to test specific specs: bundle exec appraisal activerecord5 rspec spec/lib/generators/activerecord_generator_spec.rb
+In order to test specific specs: bundle exec appraisal activerecord6 rspec spec/lib/generators/activerecord_generator_spec.rb
 
 * Mongoid: bundle exec appraisal mongoid7 rake spec ADAPTER=mongoid
 

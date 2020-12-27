@@ -6,6 +6,7 @@
 /pkg/
 /spec/reports/
 /spec/tmp/
+/spec/fixtures/
 /spec/support/files/proxies.yml
 /tmp/
 
@@ -16,7 +17,7 @@
 .pry_history
 
 # appraisals
-/gemfiles/*.lock
+/gemfiles/
 
 # RVM
 .ruby-version

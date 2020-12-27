@@ -23,25 +23,25 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
   
-  spec.add_dependency 'faraday', '~> 1.0', '>= 1.0.1'
-  spec.add_dependency 'net-ssh', '~> 6.1'
+  spec.add_dependency 'faraday', '>= 1.0'
+  spec.add_dependency 'net-ssh', '>= 6.0'
   
-  spec.add_development_dependency 'bundler', '~> 2.1', '>= 2.1.4'
-  spec.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
-  spec.add_development_dependency 'appraisal', '~> 2.3'
+  spec.add_development_dependency 'bundler', '>= 2.0'
+  spec.add_development_dependency 'rake', '>= 13.0'
+  spec.add_development_dependency 'appraisal', '>= 2.3'
   
-  spec.add_development_dependency 'virtus', '~> 1.0', '>= 1.0.5'
+  spec.add_development_dependency 'virtus', '>= 1.0'
   
-  spec.add_development_dependency 'rspec-rails', '~> 4.0', '>= 4.0.1'
-  spec.add_development_dependency 'rspec-core', '~> 3.9', '>= 3.9.2'
-  spec.add_development_dependency 'rspec-expectations', '~> 3.9', '>= 3.9.2'
-  spec.add_development_dependency 'rspec-mocks', '~> 3.9', '>= 3.9.1'
-  spec.add_development_dependency 'rspec-support', '~> 3.9', '>= 3.9.3'
-  spec.add_development_dependency 'generator_spec', '~> 0.9.4'
+  spec.add_development_dependency 'rspec-rails', '>= 4.0'
+  spec.add_development_dependency 'rspec-core', '>= 3.10'
+  spec.add_development_dependency 'rspec-expectations', '>= 3.10'
+  spec.add_development_dependency 'rspec-mocks', '>= 3.10'
+  spec.add_development_dependency 'rspec-support', '>= 3.10'
+  spec.add_development_dependency 'generator_spec', '>= 0.9'
   
-  spec.add_development_dependency 'rdoc', '~> 6.2', '>= 6.2.1'
-  spec.add_development_dependency 'vcr', '~> 6.0'
-  spec.add_development_dependency 'webmock', '~> 3.8', '>= 3.8.3'
+  spec.add_development_dependency 'rdoc', '>= 6.3'
+  spec.add_development_dependency 'vcr', '>= 6.0'
+  spec.add_development_dependency 'webmock', '>= 3.11'
   
-  spec.add_development_dependency 'pry', '~> 0.13.1'
+  spec.add_development_dependency 'pry', '>= 0.13'
 end

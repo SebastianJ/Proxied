@@ -33,57 +33,79 @@ module Proxied
               ::Proxied::Jobs::CheckProxyJob.perform_async(proxy.id.to_s)
           end
         end
-
       else
         ::Proxied::Logger.log "Couldn't find any proxies to check!"
       end
     end
-    
-    def check_proxy(proxy, update: true)
+
+    def check_proxy(proxy, protocol: nil, update: true)
       ::Proxied::Logger.log "#{Time.now}: Will check if proxy #{proxy.proxy_address} is working."
+      protocol ||= proxy.protocol
       
-      self.send("check_#{proxy.protocol}_proxy", proxy, update: update)
+      self.send("check_#{protocol}_proxy", proxy, update: update)
     end
-    
-    def check_socks_proxy(proxy, test_host: ::Proxied.configuration.socks_test[:hostname], test_port: ::Proxied.configuration.socks_test[:port], test_query: ::Proxied.configuration.socks_test[:query], timeout: ::Proxied.configuration.socks_test[:timeout], update: true)
+
+    def check_socks_proxy(
+      proxy, 
+      test_host:  ::Proxied.configuration.socks_test[:hostname], 
+      test_port:  ::Proxied.configuration.socks_test[:port], 
+      test_query: ::Proxied.configuration.socks_test[:query], 
+      timeout:    ::Proxied.configuration.socks_test[:timeout], 
+      update:     true
+    )
       valid_proxy     =   false
 
       begin
         socks_proxy   =   ::Net::SSH::Proxy::SOCKS5.new(proxy.host, proxy.port, proxy.socks_proxy_credentials)
-        client        =   socks_proxy.open(test_host, test_port, {timeout: timeout})
+        socket        =   socks_proxy.open(test_host, test_port, {timeout: timeout})
 
-        client.write("#{test_query}\r\n")
-        response      =   client.read
-        
-        valid_proxy   =   !response.to_s.empty?
-        
-        client.close
-      
+        socket.write("#{test_query}\r\n")
+        response      =   socket.read
+        valid_proxy   =   !response.to_s.empty? && response.downcase.include?(test_query.gsub(/^=/, '').downcase)
+
+        socket.close
+
       rescue StandardError => e
         ::Proxied::Logger.log "Exception occured while trying to check proxy #{proxy.proxy_address}. Error Class: #{e.class}. Error Message: #{e.message}"
         valid_proxy   =   false
       end
-      
+
       update_proxy(proxy, valid_proxy) if update
-      
+
       return valid_proxy
     end
-    
-    def check_http_proxy(proxy, test_url: ::Proxied.configuration.http_test[:url], evaluate: ::Proxied.configuration.http_test[:evaluate], timeout: ::Proxied.configuration.http_test[:timeout], update: true)
-      ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address} (#{proxy.ip_address})."
+
+    def check_https_proxy(
+      proxy,
+      test_url: ::Proxied.configuration.http_test[:url],
+      evaluate: ::Proxied.configuration.http_test[:evaluate],
+      timeout:  ::Proxied.configuration.http_test[:timeout],
+      update:   true)
       
+      return check_http_proxy(proxy, test_url: test_url, evaluate: evaluate, timeout: timeout, update: update)
+    end
+
+    def check_http_proxy(
+      proxy,
+      test_url: ::Proxied.configuration.http_test[:url],
+      evaluate: ::Proxied.configuration.http_test[:evaluate],
+      timeout:  ::Proxied.configuration.http_test[:timeout],
+      update:   true)
+
+      ::Proxied::Logger.log "#{Time.now}: Fetching #{::Proxied.configuration.http_test[:url]} with proxy #{proxy.proxy_address} (#{proxy.ip_address})."
+
       response                    =   request(test_url, proxy, options: {timeout: timeout})
       valid_proxy                 =   evaluate.call(proxy, response)
 
       update_proxy(proxy, valid_proxy, response) if update
-      
+
       return valid_proxy
     end
-    
+
     def update_proxy(proxy, valid, response = nil)      
       ::Proxied::Logger.info "#{Time.now}: Proxy #{proxy.proxy_address} (#{proxy.ip_address}) is #{valid ? "working" : "not working"}!"
       ::Proxied::Logger.debug "Response: #{response}" if !valid && response
-      
+
       successful_attempts         =   proxy.successful_attempts || 0
       failed_attempts             =   proxy.failed_attempts || 0
 
@@ -94,30 +116,32 @@ module Proxied
       end
 
       is_valid                    =   (successful_attempts >= self.minimum_successful_attempts && failed_attempts < self.maximum_failed_attempts)
-      
+
       proxy.valid_proxy           =   is_valid
       proxy.successful_attempts   =   successful_attempts
       proxy.failed_attempts       =   failed_attempts
       proxy.last_checked_at       =   Time.now
       proxy.save
     end
-    
+
     private
       def request(url, proxy, options: {})
         response                  =   nil
         
         user_agent                =   options.fetch(:user_agent, ::Proxied.configuration.faraday.fetch(:user_agent, nil)&.call)
         timeout                   =   options.fetch(:timeout, ::Proxied.configuration.http_test[:timeout])
-        
+        auth_mode                 =   proxy.respond_to?(:auth_mode) ? proxy.auth_mode : 'credentials'
+
         begin
           connection              =   ::Faraday.new(url: url) do |builder|
             builder.headers["User-Agent"]   =   user_agent if !user_agent.to_s.empty?
             builder.options[:timeout]       =   timeout if timeout
-            builder.proxy                   =   proxy.proxy_options_for_faraday            
+            builder.proxy                   =   proxy.proxy_options_for_faraday
+            #builder.basic_auth(proxy.username, proxy.password) if using_basic_auth?(auth_mode)
             builder.response :logger if ::Proxied.configuration.verbose_faraday?
             builder.adapter ::Proxied.configuration.faraday.fetch(:adapter, :net_http)
           end
-          
+
           response                =   connection.get&.body
           
         rescue Faraday::TimeoutError, Faraday::Error => e
@@ -125,6 +149,14 @@ module Proxied
         end
         
         return response
+      end
+
+      def using_credentials?(mode)
+        mode.to_s.eql?('credentials')
+      end
+
+      def using_basic_auth?(mode)
+        mode.to_s.eql?('basic') || mode.to_s.eql?('basic_auth')
       end
 
   end

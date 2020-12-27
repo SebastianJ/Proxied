@@ -13,8 +13,8 @@ module Proxied
       end
 
       # Keep these for compatibility for now, they just wrap the utility functions
-      def format_proxy_address(host, port = 80, include_http = false)
-        ::Proxied::Utilities.format_proxy_address(host: host, port: port, include_http: include_http)
+      def format_proxy_address(host, port = 80, include_protocol = false)
+        ::Proxied::Utilities.format_proxy_address(host: host, port: port, include_protocol: include_protocol)
       end
 
       def format_proxy_credentials(username, password)
@@ -23,12 +23,12 @@ module Proxied
     end
 
     module InstanceMethods
-      def proxy_address(include_http: false)
+      def proxy_address(include_protocol: false)
         case self.auth_mode.to_sym
           when :credentials
-            ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, include_http: include_http)
-          when :basic_auth
-            ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, username: self.username, password: self.password, include_http: include_http)
+            ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, protocol: self.protocol, include_protocol: include_protocol)
+          when :url
+            ::Proxied::Utilities.format_proxy_address(host: self.host, port: self.port, protocol: self.protocol, username: self.username, password: self.password, include_protocol: include_protocol)
         end
       end
 
@@ -41,7 +41,14 @@ module Proxied
       end
       
       def proxy_options_for_faraday
-        ::Proxied::Utilities.proxy_options_for_faraday(host: self.host, port: self.port, username: self.username, password: self.password, auth_mode: self.auth_mode)
+        ::Proxied::Utilities.proxy_options_for_faraday(
+          host:      self.host,
+          port:      self.port,
+          protocol:  self.protocol,
+          username:  self.username,
+          password:  self.password,
+          auth_mode: self.auth_mode
+        )
       end
       
     end

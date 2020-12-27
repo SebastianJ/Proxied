@@ -8,7 +8,7 @@ require "proxied"
 
 # (If you use this, don't forget to add pry to your Gemfile!)
 require "pry"
-Pry.config.history.file = File.join(__FILE__, "../.pry_history")
+Pry.config.history_file = File.join(__FILE__, "../.pry_history")
 Pry.start
 
 #require "irb"
