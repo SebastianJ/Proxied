@@ -16,7 +16,7 @@
   # The settings below are for configuring the proxy checker service
   config.faraday                      =   {
     adapter:    :net_http,
-    user_agent: -> { "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15" },
+    user_agent: -> { "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.2 Safari/605.1.15" },
     verbose:    false
   }
   
