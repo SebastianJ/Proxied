@@ -73,12 +73,11 @@ To test specific appraisals/gemfiles, you can do
 
 * ActiveRecord: bundle exec appraisal activerecord6 rake spec
 
-In order to test specific specs: bundle exec appraisal activerecord6 rspec spec/lib/generators/activerecord_generator_spec.rb
+In order to test specific specs: `bundle exec appraisal activerecord6 rspec spec/lib/generators/activerecord_generator_spec.rb`
 
 * Mongoid: bundle exec appraisal mongoid7 rake spec ADAPTER=mongoid
 
-In order to test specific specs: ADAPTER=mongoid bundle exec appraisal mongoid7 rspec spec/lib/generators/mongoid_generator_spec.rb
-
+In order to test specific specs: `ADAPTER=mongoid bundle exec appraisal mongoid7 rspec spec/lib/generators/mongoid_generator_spec.rb`
 
 ## Contributing
 
